@@ -26,3 +26,43 @@ export interface NavItem {
     icon?: LucideIcon | null;
     isActive?: boolean;
 }
+
+export interface PaginationMetaLink {
+    url: string | null;
+    label: string;
+    active: boolean;
+}
+
+export interface PaginationMeta {
+    current_page: number;
+    from: number | null;
+    last_page: number;
+    links: PaginationMetaLink[];
+    path: string;
+    per_page: number;
+    to: number | null;
+    total: number;
+}
+
+export interface PaginationLink {
+    first: string | null;
+    last: string | null;
+    next: string | null;
+    preb: string | null;
+}
+
+export interface Pagination<T> {
+    data: T[];
+    links: PaginationLink[];
+    meta: PaginationMeta;
+}
+
+export interface Project {
+    id: number;
+    title: string;
+    description: string;
+    start_date: string;
+    end_date: string;
+    created_at: Date;
+    updated_at: Date;
+}

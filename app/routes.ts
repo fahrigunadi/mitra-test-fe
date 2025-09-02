@@ -13,5 +13,6 @@ export default [
   ]),
   layout("./dashboard/layout.tsx", [
     route("dashboard", "./dashboard/index.tsx"),
+    route("projects", "./dashboard/projects/index.tsx"),
   ]),
 ] satisfies RouteConfig;

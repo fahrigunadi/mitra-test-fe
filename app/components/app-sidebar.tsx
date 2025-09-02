@@ -5,7 +5,7 @@ import {
   SidebarContent,
   SidebarFooter,
 } from "~/components/ui/sidebar";
-import { LayoutGrid } from "lucide-react";
+import { AppWindow, LayoutGrid } from "lucide-react";
 import type { NavItem } from "~/types";
 
 const mainNavItems: NavItem[] = [
@@ -13,6 +13,11 @@ const mainNavItems: NavItem[] = [
     title: "Dashboard",
     to: "dashboard",
     icon: LayoutGrid,
+  },
+  {
+    title: "Projects",
+    to: "projects",
+    icon: AppWindow,
   },
 ];
 
