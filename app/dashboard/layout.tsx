@@ -4,7 +4,6 @@ import { AppSidebar } from "~/components/app-sidebar";
 import { Navigate, Outlet } from "react-router";
 import useAuthStore from "~/store/auth.store";
 import { useEffect } from "react";
-import { Toaster } from "~/components/ui/sonner";
 
 export default function DashboardLayout() {
   const { isAuthenticated, fetchAuthenticatedUser, isLoading } = useAuthStore();
@@ -27,7 +26,6 @@ export default function DashboardLayout() {
       <AppContent variant="sidebar" className="overflow-x-hidden">
         <Outlet />
       </AppContent>
-      <Toaster />
     </AppShell>
   );
 }
