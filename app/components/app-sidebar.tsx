@@ -11,12 +11,12 @@ import type { NavItem } from "~/types";
 const mainNavItems: NavItem[] = [
   {
     title: "Dashboard",
-    to: "dashboard",
+    to: "/dashboard",
     icon: LayoutGrid,
   },
   {
     title: "Projects",
-    to: "projects",
+    to: "/projects",
     icon: AppWindow,
   },
 ];

@@ -9,6 +9,7 @@ import type { NavItem } from "~/types";
 
 export function NavMain({ items = [] }: { items: NavItem[] }) {
   const location = useLocation();
+
   return (
     <SidebarGroup className="px-2 py-0">
       <SidebarMenu>

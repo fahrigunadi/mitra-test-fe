@@ -5,7 +5,7 @@ export interface User {
     name: string;
     email: string;
     email_verified_at: Date;
-    role: string;
+    role: "admin" | "member";
     created_at: Date;
     updated_at: Date;
 }
@@ -63,6 +63,16 @@ export interface Project {
     description: string;
     start_date: string;
     end_date: string;
+    created_at: Date;
+    updated_at: Date;
+}
+
+export interface Task {
+    id: number;
+    title: string;
+    status: "todo" | "in_progress" | "done";
+    assigned_to: User | null;
+    project_id: number;
     created_at: Date;
     updated_at: Date;
 }

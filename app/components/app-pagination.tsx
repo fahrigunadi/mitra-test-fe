@@ -22,7 +22,7 @@ const AppPagination = <T,>({ pagination }: AppPaginationProps<T>) => {
     pagination?.meta?.links?.length ? pagination?.meta?.links.length - 1 : 0
   ];
 
-  if (!pageLinks?.length) {
+  if ((pagination?.meta?.total ?? 0) <= (pagination?.meta?.per_page ?? 0)) {
     return null;
   }
 

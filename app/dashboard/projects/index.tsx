@@ -86,6 +86,8 @@ export default function Index() {
           <TableRow>
             <TableHead>Title</TableHead>
             <TableHead>Description</TableHead>
+            <TableHead>Start Date</TableHead>
+            <TableHead>End Date</TableHead>
             <TableHead>Actions</TableHead>
           </TableRow>
         </TableHeader>
@@ -110,9 +112,15 @@ export default function Index() {
               <TableCell className="max-w-[25vw] truncate">
                 {project.description}
               </TableCell>
+              <TableCell>
+                {project.start_date}
+              </TableCell>
+              <TableCell>
+                {project.end_date}
+              </TableCell>
               <TableCell className="flex gap-1 flex-nowrap">
-                <Button className="cursor-pointer" size="sm">
-                  <NavLink to={`/dashboard/projects/${project.id}`}>
+                <Button className="cursor-pointer" variant="outline">
+                  <NavLink to={`/projects/${project.id}/tasks`}>
                     Task
                   </NavLink>
                 </Button>
@@ -130,7 +138,7 @@ export default function Index() {
   );
 }
 
-export function AddDialog() {
+function AddDialog() {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const [params, setSearchParams] = useSearchParams();
 
@@ -244,7 +252,7 @@ export function AddDialog() {
   );
 }
 
-export function EditDialog({ project }: { project: Project }) {
+function EditDialog({ project }: { project: Project }) {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const [params, setSearchParams] = useSearchParams();
 
@@ -282,7 +290,7 @@ export function EditDialog({ project }: { project: Project }) {
           className="bg-background data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95 fixed top-[50%] left-[50%] z-50 grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%] gap-4 rounded-lg border p-6 shadow-lg duration-200 sm:max-w-lg"
         >
           <DialogHeader>
-            <DialogTitle>Add Project</DialogTitle>
+            <DialogTitle>Edit Project</DialogTitle>
           </DialogHeader>
           <div className="grid gap-4">
             <div className="grid gap-2">
@@ -358,7 +366,7 @@ export function EditDialog({ project }: { project: Project }) {
   );
 }
 
-export function DeleteDialog({ project }: { project: Project }) {
+function DeleteDialog({ project }: { project: Project }) {
   const cancelRef = useRef<HTMLButtonElement>(null);
   const [params, setSearchParams] = useSearchParams();
 

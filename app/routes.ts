@@ -14,5 +14,6 @@ export default [
   layout("./dashboard/layout.tsx", [
     route("dashboard", "./dashboard/index.tsx"),
     route("projects", "./dashboard/projects/index.tsx"),
+    route("projects/:projectId/tasks", "./dashboard/projects/tasks/index.tsx"),
   ]),
 ] satisfies RouteConfig;
