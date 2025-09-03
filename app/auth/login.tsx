@@ -10,7 +10,7 @@ import useAuthStore from "~/store/auth.store";
 
 export default function Login() {
   const navigate = useNavigate();
-  const { setIsAuthenticated, setUser } = useAuthStore();
+  const { setIsAuthenticated, setUser, setIsRoleAdmin } = useAuthStore();
   const { errors, processing, post, data, setData } = useApi({
     email: "",
     password: "",
@@ -22,6 +22,7 @@ export default function Login() {
       onSuccess: (res) => {
         setIsAuthenticated(true);
         setUser(res.data.user);
+        setIsRoleAdmin(res.data.user.role === "admin");
         localStorage.setItem("authToken", res.data.token);
         navigate("/dashboard");
       },

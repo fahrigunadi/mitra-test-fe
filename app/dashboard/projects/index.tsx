@@ -29,8 +29,10 @@ import { Textarea } from "~/components/ui/textarea";
 import { DatePicker } from "~/components/date-picker";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import useAuthStore from "~/store/auth.store";
 
 export default function Index() {
+  const isRoleAdmin = useAuthStore((state) => state.isRoleAdmin);
   const [projects, setProjects] = useState<Pagination<Project>>();
   const { get } = useApi({});
   const [search, setSearch] = useState("");
@@ -79,7 +81,7 @@ export default function Index() {
             placeholder="Search Projects"
           />
         </div>
-        <AddDialog />
+        {isRoleAdmin && <AddDialog />}
       </div>
       <Table>
         <TableHeader>
@@ -112,20 +114,14 @@ export default function Index() {
               <TableCell className="max-w-[25vw] truncate">
                 {project.description}
               </TableCell>
-              <TableCell>
-                {project.start_date}
-              </TableCell>
-              <TableCell>
-                {project.end_date}
-              </TableCell>
+              <TableCell>{project.start_date}</TableCell>
+              <TableCell>{project.end_date}</TableCell>
               <TableCell className="flex gap-1 flex-nowrap">
                 <Button className="cursor-pointer" variant="outline">
-                  <NavLink to={`/projects/${project.id}/tasks`}>
-                    Task
-                  </NavLink>
+                  <NavLink to={`/projects/${project.id}/tasks`}>Task</NavLink>
                 </Button>
-                <EditDialog project={project} />
-                <DeleteDialog project={project} />
+                {isRoleAdmin && <EditDialog project={project} />}
+                {isRoleAdmin && <DeleteDialog project={project} />}
               </TableCell>
             </TableRow>
           ))}
@@ -402,8 +398,8 @@ function DeleteDialog({ project }: { project: Project }) {
           </DialogHeader>
           <div>
             <p className="text-sm text-muted-foreground">
-              Are you sure you want to delete this project? This action cannot be
-              undone.
+              Are you sure you want to delete this project? This action cannot
+              be undone.
             </p>
           </div>
           <DialogFooter>

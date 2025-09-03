@@ -36,6 +36,7 @@ import {
   DropdownMenuTrigger,
 } from "~/components/ui/dropdown-menu";
 import { Select } from "~/components/select";
+import useAuthStore from "~/store/auth.store";
 
 const statuses = [
   {
@@ -82,7 +83,12 @@ export default function Index() {
     });
   }, [projectId]);
 
-  const getTasks = (page: string, search: string, status: string = "", assigned_to_id: string = "") => {
+  const getTasks = (
+    page: string,
+    search: string,
+    status: string = "",
+    assigned_to_id: string = ""
+  ) => {
     get(
       `/projects/${projectId}/tasks?per_page=10&page=${page}&search=${search}&status=${status}&assigned_to_id=${assigned_to_id}`,
       {
@@ -116,8 +122,10 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
-    params.set("status", filterStatus || "");
-    setSearchParams(params);
+    if (params.get("status") || filterStatus) {
+      params.set("status", filterStatus || "");
+      setSearchParams(params);
+    }
   }, [filterStatus]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -208,7 +216,13 @@ export default function Index() {
             />
           </div>
 
-          <Button onClick={clearFilter} variant="outline" className="cursor-pointer">Clear</Button>
+          <Button
+            onClick={clearFilter}
+            variant="outline"
+            className="cursor-pointer"
+          >
+            Clear
+          </Button>
         </div>
         <AddDialog users={users} />
       </div>
@@ -252,6 +266,8 @@ function ProjectCard({
 }
 
 function TaskCard({ task, users }: { task: Task; users: User[] }) {
+  const { isRoleAdmin, user } = useAuthStore();
+
   const statusColor = {
     todo: "bg-gray-200 text-gray-800",
     in_progress: "bg-yellow-200 text-yellow-800",
@@ -274,8 +290,11 @@ function TaskCard({ task, users }: { task: Task; users: User[] }) {
             </span>
           </div>
           <div className="flex gap-2">
-            <EditDialog task={task} users={users} />
-            <DeleteDialog task={task} />
+            {isRoleAdmin ||
+              (task.assigned_to?.id === user?.id && (
+                <EditDialog task={task} users={users} />
+              ))}
+            {isRoleAdmin && <DeleteDialog task={task} />}
           </div>
         </div>
       </CardContent>
@@ -300,7 +319,7 @@ function AddDialog({ users }: { users: User[] }) {
       onSuccess: () => {
         reset();
         params.set("page", "1");
-        params.set("added", "1");
+        params.set("a", Math.random().toString());
         setSearchParams(params);
         toast.success("Task created successfully");
         cancelRef.current?.click();
@@ -414,6 +433,7 @@ function AddDialog({ users }: { users: User[] }) {
 }
 
 function EditDialog({ task, users }: { task: Task; users: User[] }) {
+  const { isRoleAdmin } = useAuthStore();
   const { projectId } = useParams<{ projectId: string }>();
   const cancelRef = useRef<HTMLButtonElement>(null);
   const [params, setSearchParams] = useSearchParams();
@@ -429,8 +449,7 @@ function EditDialog({ task, users }: { task: Task; users: User[] }) {
     put(`/projects/${projectId}/tasks/${task.id}`, {
       onSuccess: () => {
         reset();
-        params.set("page", "1");
-        params.set("edited", "1");
+        params.set("e", Math.random().toString());
         setSearchParams(params);
         toast.success("Task updated successfully");
         cancelRef.current?.click();
@@ -514,6 +533,7 @@ function EditDialog({ task, users }: { task: Task; users: User[] }) {
               <Label htmlFor="assigned_tos">Assigned to</Label>
 
               <Select
+                disabled={!isRoleAdmin}
                 name="assigned_to_id"
                 onValueChange={(value) => setData("assigned_to_id", value)}
                 value={data.assigned_to_id}
