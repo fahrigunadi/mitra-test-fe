@@ -290,10 +290,9 @@ function TaskCard({ task, users }: { task: Task; users: User[] }) {
             </span>
           </div>
           <div className="flex gap-2">
-            {isRoleAdmin ||
-              (task.assigned_to?.id === user?.id && (
-                <EditDialog task={task} users={users} />
-              ))}
+            {(isRoleAdmin || task.assigned_to?.id === user?.id) && (
+              <EditDialog task={task} users={users} />
+            )}
             {isRoleAdmin && <DeleteDialog task={task} />}
           </div>
         </div>
