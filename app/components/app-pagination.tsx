@@ -35,7 +35,7 @@ const AppPagination = <T,>({ pagination }: AppPaginationProps<T>) => {
         {pageLinks?.map((link, index) => (
           <PaginationItem key={index}>
             {link.url ? (
-              <PaginationLink isActive={link.active} to={link.url.replace(import.meta.env.VITE_BACKEND_BASE_URL, "")}>
+              <PaginationLink isActive={link.active} to={new URL(link.url).pathname.replace("/api", "") + new URL(link.url).search + new URL(link.url).hash}>
                 <span dangerouslySetInnerHTML={{ __html: link.label }} />
               </PaginationLink>
             ) : (
