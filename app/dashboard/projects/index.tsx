@@ -96,14 +96,14 @@ export default function Index() {
         <TableBody>
           {!projects && (
             <TableRow>
-              <TableCell colSpan={3} className="text-center">
+              <TableCell colSpan={1000} className="text-center">
                 Loading...
               </TableCell>
             </TableRow>
           )}
           {projects?.data.length === 0 && (
             <TableRow>
-              <TableCell colSpan={3} className="text-center">
+              <TableCell colSpan={1000} className="text-center">
                 No projects found
               </TableCell>
             </TableRow>
